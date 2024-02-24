@@ -76,15 +76,18 @@ public class UIPrimartyController implements Initializable {
     
     ObservableList<Player> list = FXCollections.observableArrayList(
     		
-    		new Player (1,2,3,4,5,6,7),
-    		new Player (1,2,3,4,5,6,7),
-    		new Player (1,2,3,4,5,6,7)
+    		new Player (10,20,30,40,50,60,70),
+    		new Player (22,33,44,55,66,77,88),
+    		new Player (44,456,3215236,125,1251325,4563456,123)
     		
     		);
   
 
 @Override
 public void initialize(URL url, ResourceBundle rb) {
+	
+	StatsTable.setItems(list);
+	
 	
 	KillsAssitsTable.setCellValueFactory(new PropertyValueFactory<Player, Integer>("killsAssists"));
 	DeathsTable.setCellValueFactory(new PropertyValueFactory<Player, Integer>("deaths"));
