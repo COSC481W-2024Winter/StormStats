@@ -1,97 +1,72 @@
 package application;
 
+import java.util.ArrayList;
+
 public class Player {
+
 	
-	int killsAssists;
-	int deaths;
-	int siegeDmg;
-	int heroDmg;
-	int healing;
-	int selfHealing;
-	int expSoak;
+	String UserName;
+	double AvgKillsAssits;
+	double AvgDeaths;
+	int AvgHeroDmg;
+	int AvgSiegeDmg;
+	int AvgHealing;
+	int AvgSelfHealing;
+	ArrayList<Encounter> Encounters;
 	
-
-	public Player(int killsAssists, int deaths, int siegeDmg, int heroDmg, int healing, int selfHealing,int expSoak ) {
-		this.killsAssists=killsAssists;
-		this.deaths=deaths;
-		this.siegeDmg=siegeDmg;
-		this.heroDmg=heroDmg;
-		this.healing=healing;
-		this.selfHealing=selfHealing;
-		this.expSoak=expSoak;	
-	}
-
-
-	public int getKillsAssists() {
-		return killsAssists;
-	}
-
-
-	public void setKillsAssists(int killsAssists) {
-		this.killsAssists = killsAssists;
-	}
-
-
-	public int getDeaths() {
-		return deaths;
-	}
-
-
-	public void setDeaths(int deaths) {
-		this.deaths = deaths;
-	}
-
-
-	public int getSiegeDmg() {
-		return siegeDmg;
-	}
-
-
-	public void setSiegeDmg(int siegeDmg) {
-		this.siegeDmg = siegeDmg;
-	}
-
-
-	public int getHeroDmg() {
-		return heroDmg;
-	}
-
-
-	public void setHeroDmg(int heroDmg) {
-		this.heroDmg = heroDmg;
-	}
-
-
-	public int getHealing() {
-		return healing;
-	}
-
-
-	public void setHealing(int healing) {
-		this.healing = healing;
-	}
-
-
-	public int getSelfHealing() {
-		return selfHealing;
-	}
-
-
-	public void setSelfHealing(int selfHealing) {
-		this.selfHealing = selfHealing;
-	}
-
-
-	public int getExpSoak() {
-		return expSoak;
-	}
-
-
-	public void setExpSoak(int expSoak) {
-		this.expSoak = expSoak;
+	public Player(String userName, double avgKillsAssits, double avgDeaths, int avgHeroDmg, int avgSiegeDmg, int avgHealing,int avgSelfHealing, Encounter Encounter) {
+		
+		UserName = userName;
+		AvgKillsAssits = avgKillsAssits;
+		AvgDeaths = avgDeaths;
+		AvgHeroDmg = avgHeroDmg;
+		AvgSiegeDmg = avgSiegeDmg;
+		AvgHealing = avgHealing;
+		AvgSelfHealing=avgSelfHealing;
 	}
 	
+	
+	public void newEncounter(Player player, Encounter encounter) {
+		player.Encounters.add(encounter);
+		updateAverages(player);
+		
+	}
+
+
+
+
+	private void updateAverages(Player player) {
+		int KillsAssitsCount=0;
+		int DeathsCount=0;
+		int HeroDmgCount=0;
+		int SiegeDmgCount=0;
+		int HealingCount=0;
+		int SelfHealingCount=0;
+		
+		
+		
+		for(int i=0; i<player.Encounters.size(); i++) {
+			
+			KillsAssitsCount=  KillsAssitsCount+player.Encounters.get(i).getKillsAssists();
+			DeathsCount     =  DeathsCount+player.Encounters.get(i).getDeaths();
+			HeroDmgCount    =  HeroDmgCount+player.Encounters.get(i).getHeroDmg();
+			SiegeDmgCount   =  SiegeDmgCount+player.Encounters.get(i).getSiegeDmg();
+			HealingCount    =  HealingCount+player.Encounters.get(i).getHealing();
+			SelfHealingCount=  SelfHealingCount+player.Encounters.get(i).getSelfHealing();
+			
+		}
+		
+		player.AvgKillsAssits=KillsAssitsCount/Encounters.size();
+		player.AvgDeaths=DeathsCount/Encounters.size();
+		player.AvgHeroDmg=HeroDmgCount/Encounters.size();
+		player.AvgSiegeDmg=SiegeDmgCount/Encounters.size();
+		player.AvgHealing=HealingCount/Encounters.size();
+		player.AvgSelfHealing=SelfHealingCount/Encounters.size();
+		
+		
+	}
+	
+	
+	
+
 }
-
-
-
