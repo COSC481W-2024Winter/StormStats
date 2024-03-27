@@ -23,6 +23,8 @@ public class Player {
 		AvgSiegeDmg = avgSiegeDmg;
 		AvgHealing = avgHealing;
 		AvgSelfHealing=avgSelfHealing;
+		Encounters= new ArrayList<Encounter>();
+		newEncounter(this,Encounter);
 	}
 	
 	

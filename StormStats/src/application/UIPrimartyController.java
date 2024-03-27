@@ -1,6 +1,11 @@
 package application;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -78,7 +83,11 @@ public class UIPrimartyController implements Initializable {
     @FXML
     private TableColumn<Encounter, Integer> ExpSoakTable;
     
-    ArrayList<Player> playerList = new ArrayList<Player>(); // add the SQL database here at creation?
+    ArrayList<Player> playerList = new ArrayList<Player>(); 
+  
+   
+    
+    
     
   
    // add new table for displaying playerList data 
@@ -87,6 +96,13 @@ public class UIPrimartyController implements Initializable {
    
     ObservableList<Encounter> encounterList = FXCollections.observableArrayList(
     		
+    		
+    		//add 2* loop that gets all players then gets all encounters of that player
+    		/* observable list accepts encountrs in this format
+    		playerList.get(0).Encounters.get(0),  <-- it wants these commas inbetween
+    		playerList.get(1).Encounters.get(1),
+    		playerList.get(2).Encounters.get(2)
+    		*/
     		
     		//these encounters are wrong because the conttructor updated
     		
@@ -99,7 +115,9 @@ public class UIPrimartyController implements Initializable {
 
 @Override
 public void initialize(URL url, ResourceBundle rb) {
+	initializeSQL();
 	StatsTable.setItems(encounterList);
+	
 	
 	
 	KillsAssitsTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("killsAssists"));
@@ -113,6 +131,12 @@ public void initialize(URL url, ResourceBundle rb) {
 	StatsTable.setItems(encounterList);
 	
 }
+
+public void initializeSQL() {
+	
+}
+
+
 	
 	
 	
@@ -152,6 +176,17 @@ public void initialize(URL url, ResourceBundle rb) {
 		String Map="THIS IS ERROR";
 		Boolean won=null; 
 		Boolean SameTeam=null;
+		
+		//map
+		try {
+			Map = (MapName.getText());
+			
+		}
+		catch(Exception E) {
+			OtherEXP.setText("Error; ??");
+			System.out.println(E);
+			noError=false;
+		}
 		
 		// Other EXP soak
 		try {
@@ -388,8 +423,7 @@ public void initialize(URL url, ResourceBundle rb) {
 		}
 		
 		// if there were no wrong inputs create the encounter and sent it to the player list
-		if(noError=true) {
-			
+		if(noError==true) {			
 			EncounterSubmit(new Encounter( name ,killsAssists, deaths, siegeDmg, heroDmg, healing, selfHealing, expSoak, userKillsAssists, userDeaths, userSiegeDmg, userHeroDmg, userHealing,userSelfHealing, userExpSoak, Map, won, SameTeam));
 		}
 		
@@ -400,6 +434,7 @@ public void initialize(URL url, ResourceBundle rb) {
 
 	public void EncounterSubmit(Encounter e) {
 		boolean playerAlreadyExists=false;
+		int currentgameNumber=0;
 		
 		//would like to change this out for binary search/some other search
 		for(int i=0; i<playerList.size(); i++) {
@@ -411,9 +446,42 @@ public void initialize(URL url, ResourceBundle rb) {
 			
 		}
 		// if no one with the same name was found make a new player object for them
-		if(playerAlreadyExists=false) {
+		if(playerAlreadyExists==false) {
 			playerList.add(new Player(e.UserName, 0, 0, 0, 0, 0, 0, e));
 		}
+		
+		
+		//update SQLite database
+		
+		try
+        (
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:src/resources/ssdatabase.db");
+            Statement statement = connection.createStatement();
+        ) {
+			 statement.setQueryTimeout(30);
+			 
+			 //get the current game number
+			 if((Integer)statement.executeUpdate("select max(gamenumber) from playergames")==null) {
+			//do nothing IE gamenumber=0	 
+			 }
+			 else {
+				 currentgameNumber=statement.executeUpdate("select max(gamenumber) from playergames")+1;
+			 }
+			 
+			 System.out.println("insert into playergames values("+"'"+e.UserName+"'"+ ","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+e.Map+"'"+","+ e.Won+")");
+			 System.out.println("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+")");
+			 
+			 statement.executeUpdate("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+")" );
+			 statement.executeUpdate("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+")");
+			
+			connection.close();
+		} 
+		catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 	
 	}
 

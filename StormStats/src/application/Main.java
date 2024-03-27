@@ -28,11 +28,12 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		
-		testSqlite();
+		//testSqlite();
 		launch(args);
 	}
 
     public static void testSqlite() {
+    	int test =1 ;
         // following the sample code: https://github.com/xerial/sqlite-jdbc?tab=readme-ov-file
         try
         (
@@ -42,11 +43,11 @@ public class Main extends Application {
             Statement statement = connection.createStatement();
         ) {
             statement.setQueryTimeout(30); 
-            //statement.executeUpdate("drop table if exists person");
-            //statement.executeUpdate("create table person (id integer, name string)");
-            //statement.executeUpdate("insert into person values(1, 'leo')");
-            //statement.executeUpdate("insert into person values(2, 'yui')");
-            //statement.executeUpdate("insert into person values(3, 'nick')");
+            statement.executeUpdate("drop table if exists person");
+            statement.executeUpdate("create table person (id integer primary key, name string)");
+            statement.executeUpdate("insert into person values("+ test+ "," +"'leo')");
+            statement.executeUpdate("insert into person values(2, 'yui')");
+            statement.executeUpdate("insert into person values(3, 'nick')");
             ResultSet rs = statement.executeQuery("select * from person");
             while(rs.next())
             {
