@@ -1,5 +1,7 @@
 package application;
 	
+import java.sql.*;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -25,6 +27,45 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		
+		//testSqlite();
 		launch(args);
 	}
+
+    public static void testSqlite() {
+    	int test =1 ;
+        // following the sample code: https://github.com/xerial/sqlite-jdbc?tab=readme-ov-file
+        try
+        (
+            // create a database connection
+            // the database file is downloaded from: https://edencoding.com/connect-javafx-with-sqlite/
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:src/resources/database.db");
+            Statement statement = connection.createStatement();
+        ) {
+            statement.setQueryTimeout(30); 
+            statement.executeUpdate("drop table if exists person");
+            statement.executeUpdate("create table person (id integer primary key, name string)");
+            statement.executeUpdate("insert into person values("+ test+ "," +"'leo')");
+            statement.executeUpdate("insert into person values(2, 'yui')");
+            statement.executeUpdate("insert into person values(3, 'nick')");
+            ResultSet rs = statement.executeQuery("select * from person");
+            while(rs.next())
+            {
+                // read the result set
+                System.out.println("name = " + rs.getString("name"));
+                System.out.println("id = " + rs.getInt("id"));
+            }
+        }
+        catch(SQLException e) {
+            // if the error message is "out of memory",
+            // it probably means no database file is found
+            e.printStackTrace(System.err);
+        }
+    }
+	
+	
+	
+	
+	
+	
 }

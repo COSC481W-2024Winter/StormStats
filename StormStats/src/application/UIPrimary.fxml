@@ -112,13 +112,13 @@
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Button layoutX="294.0" layoutY="307.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
-                              <TextField fx:id="OtherKA" layoutX="477.0" layoutY="10.0" promptText="Kills+Assists" />
-                              <TextField fx:id="OtherDeaths" layoutX="477.0" layoutY="43.0" promptText="Deaths" />
-                              <TextField fx:id="OtherSiegeDmg" layoutX="477.0" layoutY="75.0" promptText="Siege Dmg" />
-                              <TextField fx:id="OtherHeroDmg" layoutX="477.0" layoutY="107.0" promptText="Hero Dmg" />
-                              <TextField fx:id="OtherHealing" layoutX="477.0" layoutY="144.0" promptText="Healing" />
-                              <TextField fx:id="OtherSelfHealing" layoutX="477.0" layoutY="176.0" promptText="Self Healing" />
-                              <TextField fx:id="OtherEXP" layoutX="477.0" layoutY="208.0" promptText="EXP Soak" />
+                              <TextField fx:id="OtherKA" layoutX="477.0" layoutY="43.0" promptText="Kills+Assists" />
+                              <TextField fx:id="OtherDeaths" layoutX="477.0" layoutY="75.0" promptText="Deaths" />
+                              <TextField fx:id="OtherSiegeDmg" layoutX="477.0" layoutY="107.0" promptText="Siege Dmg" />
+                              <TextField fx:id="OtherHeroDmg" layoutX="477.0" layoutY="138.0" promptText="Hero Dmg" />
+                              <TextField fx:id="OtherHealing" layoutX="476.0" layoutY="169.0" promptText="Healing" />
+                              <TextField fx:id="OtherSelfHealing" layoutX="477.0" layoutY="201.0" promptText="Self Healing" />
+                              <TextField fx:id="OtherEXP" layoutX="477.0" layoutY="233.0" promptText="EXP Soak" />
                               <TextField fx:id="UserKA" layoutX="14.0" layoutY="10.0" promptText="Kills+Assists" />
                               <TextField fx:id="UserDeaths" layoutX="14.0" layoutY="43.0" promptText="Deaths" />
                               <TextField fx:id="UserSiegeDmg" layoutX="14.0" layoutY="75.0" promptText="Siege Dmg" />
@@ -126,9 +126,14 @@
                               <TextField fx:id="UserHealing" layoutX="14.0" layoutY="144.0" promptText="Healing" />
                               <TextField fx:id="UserSelfHealing" layoutX="14.0" layoutY="176.0" promptText="Self Healing" />
                               <TextField fx:id="UserEXP" layoutX="14.0" layoutY="208.0" promptText="EXP Soak" />
-                              <CheckBox fx:id="IsTeamMate" layoutX="515.0" layoutY="244.0" mnemonicParsing="false" text="Is Team mate" />
+                              <CheckBox fx:id="IsTeamMate" layoutX="504.0" layoutY="299.0" mnemonicParsing="false" text="Is Team mate" />
                               <Label layoutX="174.0" layoutY="14.0" text="You" />
                               <Label layoutX="397.0" layoutY="14.0" text="Everyone Else" />
+                              <TextField fx:id="MapName" layoutX="232.0" layoutY="10.0" promptText="MapName" />
+                              <CheckBox fx:id="Won" layoutX="248.0" layoutY="47.0" mnemonicParsing="false" text="Won" />
+                              <TextField fx:id="Name" layoutX="477.0" layoutY="10.0" promptText="User Name" />
+                              <TextField fx:id="HeroOther" layoutX="477.0" layoutY="267.0" promptText="Hero" />
+                              <TextField fx:id="Hero" layoutX="14.0" layoutY="242.0" promptText="Hero" />
                            </children>
                         </Pane>
                      </content></Tab>
