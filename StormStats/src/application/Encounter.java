@@ -9,7 +9,9 @@ public class Encounter {
 	int healing;
 	int selfHealing;
 	int expSoak;
+	String hero;
 	
+	String UserHero;
 	int UserkillsAssists;
 	int Userdeaths;
 	int UsersiegeDmg;
@@ -28,7 +30,7 @@ public class Encounter {
 
 
 
-	public Encounter(String name,int killsAssists, int deaths, int siegeDmg, int heroDmg, int healing, int selfHealing, int expSoak, int userkillsAssists, int userdeaths, int usersiegeDmg, int userheroDmg, int userhealing,int userselfHealing, int userexpSoak, String map, Boolean won, Boolean sameteam) {
+	public Encounter(String name,int killsAssists, int deaths, int siegeDmg, int heroDmg, int healing, int selfHealing, int expSoak, String hero, int userkillsAssists, int userdeaths, int usersiegeDmg, int userheroDmg, int userhealing,int userselfHealing, int userexpSoak,String userHero, String map, Boolean won, Boolean sameteam) {
 		
 		this.killsAssists = killsAssists;
 		this.deaths = deaths;
@@ -37,6 +39,7 @@ public class Encounter {
 		this.healing = healing;
 		this.selfHealing = selfHealing;
 		this.expSoak = expSoak;
+		this.hero=hero;
 		
 		this.UserkillsAssists = userkillsAssists;
 		this.Userdeaths = userdeaths;
@@ -45,11 +48,52 @@ public class Encounter {
 		this.Userhealing = userhealing;
 		this.UserselfHealing = userselfHealing;
 		this.UserexpSoak = userexpSoak;
+		this.UserHero=userHero;
 		
 		this.UserName=name;
 		this.Map=map;
 		this.Won=won;
 		this.SameTeam=sameteam;
+	}
+
+
+	public String getUserName() {
+		return UserName;
+	}
+
+
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
+
+
+	public String getMap() {
+		return Map;
+	}
+
+
+	public void setMap(String map) {
+		Map = map;
+	}
+
+
+	public Boolean getWon() {
+		return Won;
+	}
+
+
+	public void setWon(Boolean won) {
+		Won = won;
+	}
+
+
+	public Boolean getSameTeam() {
+		return SameTeam;
+	}
+
+
+	public void setSameTeam(Boolean sameTeam) {
+		SameTeam = sameTeam;
 	}
 
 

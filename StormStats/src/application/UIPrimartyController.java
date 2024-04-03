@@ -134,6 +134,67 @@ public void initialize(URL url, ResourceBundle rb) {
 
 public void initializeSQL() {
 	
+	
+	try
+    (
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:src/resources/ssdatabase.db");
+        Statement statement = connection.createStatement();
+    ) {
+		 statement.setQueryTimeout(30);
+		 
+		 
+		 ResultSet rs2 = statement.executeQuery("select * from playergames");
+         while(rs2.next())
+         {
+        	 int tempgamenumber2 =rs2.getInt("gamenumber");
+        	 
+        	 
+        	 String tempuserhero= rs2.getString("userhero");
+        	 int tempuserkillassits =rs2.getInt("userkillsassists");
+        	 int tempuserdeaths =rs2.getInt("userdeaths");
+        	 int tempusersiegedmg =rs2.getInt("usersiegedmg");
+        	 int tempuserherodmg =rs2.getInt("userherodmg");
+        	 int tempuserhealing =rs2.getInt("userhealing");
+        	 int tempuserselfhealing =rs2.getInt("userselfhealing");
+        	 int tempuserexpsoak =rs2.getInt("userexpsoak");
+        	 String tempmap =rs2.getString("map");
+        	 boolean tempwon =rs2.getBoolean("won");
+        	 
+        	 Statement statement2 = connection.createStatement();
+        	 ResultSet rs = statement2.executeQuery("select * from encounters where gamenumber == " + tempgamenumber2);
+        	 while(rs.next()) {
+		         // read the result set
+		    	 String tempusername= rs.getString("username");
+		         int tempgamenumber =rs.getInt("gamenumber"); // dont need this for java but im reading it anyway just in case it needs to be read to be cleared or soemthing
+		         int tempkillsassits =rs.getInt("killsassists");
+		         int tempdeaths = rs.getInt("deaths");
+		         int tempsiegedmg = rs.getInt("siegedmg");
+		         int tempherodmg = rs.getInt("herodmg");
+		         int temphealing = rs.getInt("healing");
+		         int tempselfhealing = rs.getInt("selfhealing");
+		         int tempexpsoak = rs.getInt("expsoak");
+		         boolean tempsameteam = rs.getBoolean("sameteam");
+		         String temphero= rs.getString("hero");
+					
+		         
+		         Encounter encounter = new Encounter(
+		     			tempusername,
+		     			tempkillsassits, tempdeaths, tempsiegedmg, tempherodmg, temphealing, tempselfhealing, tempexpsoak, temphero, tempuserkillassits, tempuserdeaths, tempusersiegedmg, tempuserherodmg, tempuserhealing, tempuserselfhealing, tempuserexpsoak, tempuserhero, tempmap, tempwon, tempsameteam
+		     	);
+		     	this.encounterList.add(encounter);
+             
+             }
+         }
+		 
+		 
+		 		connection.close();
+	} 
+	catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
+	
 }
 
 
@@ -164,7 +225,7 @@ public void initializeSQL() {
 		int expSoak=-1;
 		
 		
-		String hero;
+		String hero= "THIS IS ERROR";
 		int userKillsAssists=-1; 
 		int userDeaths=-1; 
 		int userSiegeDmg=-1;
@@ -177,9 +238,14 @@ public void initializeSQL() {
 		Boolean won=null; 
 		Boolean SameTeam=null;
 		
+		
+		
+		
+		
 		//map
 		try {
 			Map = (MapName.getText());
+			//System.out.println(Map);
 			
 		}
 		catch(Exception E) {
@@ -282,6 +348,8 @@ public void initializeSQL() {
 		try {
 			heroOther = HeroOther.getText();
 			HeroOther.setText("");
+			
+		
 
 			
 		}
@@ -385,6 +453,7 @@ public void initializeSQL() {
 			hero = (Hero.getText());
 			
 			
+			
 		}
 		catch(Exception E) {
 			System.out.println(E);
@@ -424,7 +493,7 @@ public void initializeSQL() {
 		
 		// if there were no wrong inputs create the encounter and sent it to the player list
 		if(noError==true) {			
-			EncounterSubmit(new Encounter( name ,killsAssists, deaths, siegeDmg, heroDmg, healing, selfHealing, expSoak, userKillsAssists, userDeaths, userSiegeDmg, userHeroDmg, userHealing,userSelfHealing, userExpSoak, Map, won, SameTeam));
+			EncounterSubmit(new Encounter( name ,killsAssists, deaths, siegeDmg, heroDmg, healing, selfHealing, expSoak, hero, userKillsAssists, userDeaths, userSiegeDmg, userHeroDmg, userHealing,userSelfHealing, userExpSoak, heroOther, Map,  won, SameTeam));
 		}
 		
 		
@@ -465,14 +534,17 @@ public void initializeSQL() {
 			//do nothing IE gamenumber=0	 
 			 }
 			 else {
-				 currentgameNumber=statement.executeUpdate("select max(gamenumber) from playergames")+1;
+				 ResultSet rs = statement.executeQuery("select max(gamenumber) from playergames");
+				 while(rs.next()) {
+					 currentgameNumber=rs.getInt(1)+1;
+				 }
 			 }
 			 
-			 System.out.println("insert into playergames values("+"'"+e.UserName+"'"+ ","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+e.Map+"'"+","+ e.Won+")");
-			 System.out.println("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+")");
+			 System.out.println("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+","+"'"+e.UserHero+"'"+")" );
+			 System.out.println("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+","+"'"+e.hero+"'"+")");
 			 
-			 statement.executeUpdate("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+")" );
-			 statement.executeUpdate("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+")");
+			 statement.executeUpdate("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+","+"'"+e.UserHero+"'"+")" );
+			 statement.executeUpdate("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+","+"'"+e.hero+"'"+")");
 			
 			connection.close();
 		} 
