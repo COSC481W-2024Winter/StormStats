@@ -57,6 +57,8 @@ public class UIPrimartyController implements Initializable {
 	@FXML
 	private CheckBox Won;
 	@FXML
+	private CheckBox NewGame;
+	@FXML
 	private TextField MapName;
 	@FXML
 	private TextField Name;
@@ -82,6 +84,13 @@ public class UIPrimartyController implements Initializable {
     private TableColumn<Encounter, Integer> SelfHealingTable;
     @FXML
     private TableColumn<Encounter, Integer> ExpSoakTable;
+    @FXML
+    private TableColumn<Encounter, String> UserNameTable;
+    @FXML
+    private TableColumn<Encounter, Boolean> SameTeamTable;
+    @FXML
+    private TableColumn<Encounter, String> HeroTable;
+    
     
     ArrayList<Player> playerList = new ArrayList<Player>(); 
   
@@ -94,23 +103,7 @@ public class UIPrimartyController implements Initializable {
     
 
    
-    ObservableList<Encounter> encounterList = FXCollections.observableArrayList(
-    		
-    		
-    		//add 2* loop that gets all players then gets all encounters of that player
-    		/* observable list accepts encountrs in this format
-    		playerList.get(0).Encounters.get(0),  <-- it wants these commas inbetween
-    		playerList.get(1).Encounters.get(1),
-    		playerList.get(2).Encounters.get(2)
-    		*/
-    		
-    		//these encounters are wrong because the conttructor updated
-    		
-    		//new Encounter (10,20,30,40,50,60,70),
-    		//new Encounter (22,33,44,55,66,77,88),
-    		//new Encounter (44,456,3215236,125,1251325,4563456,123)
-    		
-    		);
+    ObservableList<Encounter> encounterList = FXCollections.observableArrayList();
   
 
 @Override
@@ -127,6 +120,11 @@ public void initialize(URL url, ResourceBundle rb) {
 	HealingTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("healing"));
 	SelfHealingTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("selfHealing"));
 	ExpSoakTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("expSoak"));
+	
+	UserNameTable.setCellValueFactory(new PropertyValueFactory<Encounter, String>("UserName"));
+	SameTeamTable.setCellValueFactory(new PropertyValueFactory<Encounter, Boolean>("SameTeam"));
+	
+	HeroTable.setCellValueFactory(new PropertyValueFactory<Encounter, String>("hero"));
 	
 	StatsTable.setItems(encounterList);
 	
@@ -205,10 +203,6 @@ public void initializeSQL() {
 	
 	//this is for the submit button
 
-/*
- * TO DO: this method needs to be updated to create a Encounter object and then run EncounterSubmit when all feilds sucsefuly inputed
- * 
- */
 	public void submit(ActionEvent e) {
 		boolean noError=true;
 		
@@ -220,8 +214,8 @@ public void initializeSQL() {
 		int deaths=-1;
 		int siegeDmg=-1;
 		int heroDmg=-1;
-		int healing=-1;
-		int selfHealing=-1;
+		Integer healing=-1;
+		Integer selfHealing=-1;
 		int expSoak=-1;
 		
 		
@@ -230,13 +224,14 @@ public void initializeSQL() {
 		int userDeaths=-1; 
 		int userSiegeDmg=-1;
 		int userHeroDmg=-1;
-		int userHealing=-1; 
-		int userSelfHealing=-1;
+		Integer userHealing=-1; 
+		Integer userSelfHealing=-1;
 		int userExpSoak=-1;
 		
 		String Map="THIS IS ERROR";
 		Boolean won=null; 
 		Boolean SameTeam=null;
+		Boolean newGame=false;
 		
 		
 		
@@ -244,7 +239,7 @@ public void initializeSQL() {
 		
 		//map
 		try {
-			Map = (MapName.getText());
+			Map = (MapName.getText().toLowerCase());
 			//System.out.println(Map);
 			
 		}
@@ -267,9 +262,13 @@ public void initializeSQL() {
 		}
 		//Other self Healing
 		try {
+			if(OtherSelfHealing.getText().equals("")) {
+				selfHealing=null;
+			}
+			else {
 			selfHealing = (Integer.parseInt(OtherSelfHealing.getText()));
 			OtherSelfHealing.setText("");
-
+			}
 			
 		}
 		catch(Exception E) {
@@ -280,9 +279,13 @@ public void initializeSQL() {
 		
 		// Other Healing
 		try {
+			if(OtherHealing.getText().equals("")) {
+				healing=null;
+			}
+			else {
 			healing = (Integer.parseInt(OtherHealing.getText()));
 			OtherHealing.setText("");
-
+			}
 			
 		}
 		catch(Exception E) {
@@ -346,7 +349,7 @@ public void initializeSQL() {
 		
 		// hero other
 		try {
-			heroOther = HeroOther.getText();
+			heroOther = HeroOther.getText().toLowerCase();
 			HeroOther.setText("");
 			
 		
@@ -363,7 +366,6 @@ public void initializeSQL() {
 		// User EXP
 		try {
 			userExpSoak = (Integer.parseInt(UserEXP.getText()));
-			UserEXP.setText("");
 
 			
 		}
@@ -376,7 +378,14 @@ public void initializeSQL() {
 		
 		//User Self Healing
 		try {
-			userSelfHealing = (Integer.parseInt(UserSelfHealing.getText()));
+			if(UserSelfHealing.getText().equals("")) {
+			userSelfHealing=null;
+			}
+			else {
+				userSelfHealing = (Integer.parseInt(UserSelfHealing.getText()));	
+			}
+			
+			
 
 			
 		}
@@ -389,8 +398,12 @@ public void initializeSQL() {
 		
 		//User Healing
 		try {
+			if(UserHealing.getText().equals("")) {
+				userHealing=null;
+			}
+			else {
 			userHealing = (Integer.parseInt(UserHealing.getText()));
-
+			}
 			
 		}
 		catch(Exception E) {
@@ -450,7 +463,7 @@ public void initializeSQL() {
 		//need to add a check here to force correct names only
 		//name of hero played by User
 		try {
-			hero = (Hero.getText());
+			hero = (Hero.getText().toLowerCase());
 			
 			
 			
@@ -490,10 +503,19 @@ public void initializeSQL() {
 		catch(Exception E) {
 			noError=false;
 		}
+		//new game checkbox
+		try {
+			newGame = (NewGame.isSelected());
+			Won.setSelected(false);
+			
+		}
+		catch(Exception E) {
+			noError=false;
+		}
 		
 		// if there were no wrong inputs create the encounter and sent it to the player list
 		if(noError==true) {			
-			EncounterSubmit(new Encounter( name ,killsAssists, deaths, siegeDmg, heroDmg, healing, selfHealing, expSoak, hero, userKillsAssists, userDeaths, userSiegeDmg, userHeroDmg, userHealing,userSelfHealing, userExpSoak, heroOther, Map,  won, SameTeam));
+			EncounterSubmit(newGame,new Encounter( name ,killsAssists, deaths, siegeDmg, heroDmg, healing, selfHealing, expSoak, heroOther, userKillsAssists, userDeaths, userSiegeDmg, userHeroDmg, userHealing,userSelfHealing, userExpSoak, hero, Map,  won, SameTeam));
 		}
 		
 		
@@ -501,9 +523,10 @@ public void initializeSQL() {
 	
 	
 
-	public void EncounterSubmit(Encounter e) {
+	public void EncounterSubmit(Boolean newgame,Encounter e) {
 		boolean playerAlreadyExists=false;
 		int currentgameNumber=0;
+		encounterList.add(e);
 		
 		//would like to change this out for binary search/some other search
 		for(int i=0; i<playerList.size(); i++) {
@@ -536,14 +559,23 @@ public void initializeSQL() {
 			 else {
 				 ResultSet rs = statement.executeQuery("select max(gamenumber) from playergames");
 				 while(rs.next()) {
+					 // if if new game true +1 to game counter else no gamenumber=max gamenumber IE same game
+					 if(newgame==true) {
 					 currentgameNumber=rs.getInt(1)+1;
+					 }
+					 else {
+						 currentgameNumber=rs.getInt(1);
+					 }
 				 }
 			 }
 			 
 			 System.out.println("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+","+"'"+e.UserHero+"'"+")" );
 			 System.out.println("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+","+"'"+e.hero+"'"+")");
 			 
+			//if theres not a new game there should only be one game per the encounters 
+			if(newgame==true) {
 			 statement.executeUpdate("insert into playergames values("+"'"+e.UserName+"'"+","+currentgameNumber+","+ e.UserkillsAssists+","+ e.Userdeaths+","+ e.UsersiegeDmg+ ","+ e.UserheroDmg+","+ e.Userhealing+","+ e.UserselfHealing+ ","+ e.UserexpSoak+","+ "'"+ e.Map+"'"+","+ e.Won+","+"'"+e.UserHero+"'"+")" );
+			}
 			 statement.executeUpdate("insert into encounters values("+"'"+e.UserName+"'"+","+ currentgameNumber+","+ e.killsAssists+","+ e.deaths+","+ e.siegeDmg+","+ e.heroDmg+","+ e.healing+","+ e.selfHealing+","+e.expSoak+","+e.SameTeam+","+"'"+e.hero+"'"+")");
 			
 			connection.close();

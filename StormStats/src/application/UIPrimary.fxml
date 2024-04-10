@@ -50,7 +50,7 @@
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.UIPrimartyController">
   <children>
-    <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+    <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="14.0" prefWidth="717.0" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -91,12 +91,14 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane prefHeight="375.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TabPane prefHeight="374.0" prefWidth="640.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
                 <Tab text="Stats">
                      <content>
-                        <TableView fx:id="StatsTable" prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="StatsTable" prefHeight="343.0" prefWidth="629.0">
                           <columns>
+                              <TableColumn fx:id="UserNameTable" prefWidth="75.0" text="UserName" />
+                              <TableColumn fx:id="HeroTable" prefWidth="75.0" text="Hero" />
                             <TableColumn fx:id="KillsAssitsTable" prefWidth="75.0" text="Kills+Assists" />
                             <TableColumn fx:id="DeathsTable" prefWidth="75.0" text="Deaths" />
                               <TableColumn fx:id="SiegeDmgTable" prefWidth="75.0" text="SiegeDmg" />
@@ -104,6 +106,7 @@
                               <TableColumn fx:id="HealingTable" prefWidth="75.0" text="Healing" />
                               <TableColumn fx:id="SelfHealingTable" prefWidth="75.0" text="SelfHealing" />
                               <TableColumn fx:id="ExpSoakTable" prefWidth="75.0" text="ExpSoak" />
+                              <TableColumn fx:id="SameTeamTable" prefWidth="75.0" text="SameTeam" />
                           </columns>
                         </TableView>
                      </content></Tab>
@@ -111,7 +114,7 @@
                      <content>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Button layoutX="294.0" layoutY="307.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
+                              <Button layoutX="306.0" layoutY="307.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
                               <TextField fx:id="OtherKA" layoutX="477.0" layoutY="43.0" promptText="Kills+Assists" />
                               <TextField fx:id="OtherDeaths" layoutX="477.0" layoutY="75.0" promptText="Deaths" />
                               <TextField fx:id="OtherSiegeDmg" layoutX="477.0" layoutY="107.0" promptText="Siege Dmg" />
@@ -134,19 +137,10 @@
                               <TextField fx:id="Name" layoutX="477.0" layoutY="10.0" promptText="User Name" />
                               <TextField fx:id="HeroOther" layoutX="477.0" layoutY="267.0" promptText="Hero" />
                               <TextField fx:id="Hero" layoutX="14.0" layoutY="242.0" promptText="Hero" />
+                              <CheckBox fx:id="NewGame" layoutX="201.0" layoutY="311.0" mnemonicParsing="false" text="New Game" />
                            </children>
                         </Pane>
                      </content></Tab>
-                  <Tab text="Untitled Tab">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-                  <Tab text="Untitled Tab">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
               </tabs>
             </TabPane>
       </children>

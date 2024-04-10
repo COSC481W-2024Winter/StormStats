@@ -42,8 +42,8 @@ public class Player {
 		int DeathsCount=0;
 		int HeroDmgCount=0;
 		int SiegeDmgCount=0;
-		int HealingCount=0;
-		int SelfHealingCount=0;
+		Integer HealingCount=0;
+		Integer SelfHealingCount=0;
 		
 		
 		
@@ -53,8 +53,19 @@ public class Player {
 			DeathsCount     =  DeathsCount+player.Encounters.get(i).getDeaths();
 			HeroDmgCount    =  HeroDmgCount+player.Encounters.get(i).getHeroDmg();
 			SiegeDmgCount   =  SiegeDmgCount+player.Encounters.get(i).getSiegeDmg();
+			if(player.Encounters.get(i).getHealing()==null) {
+				
+			}
+			else {
 			HealingCount    =  HealingCount+player.Encounters.get(i).getHealing();
+			}
+			
+			if(player.Encounters.get(i).getSelfHealing()==null) {
+				//if null value do nothing else act normal
+			}
+			else {
 			SelfHealingCount=  SelfHealingCount+player.Encounters.get(i).getSelfHealing();
+			}
 			
 		}
 		

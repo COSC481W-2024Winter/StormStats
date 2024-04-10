@@ -6,18 +6,21 @@ public class Encounter {
 	int deaths;
 	int siegeDmg;
 	int heroDmg;
-	int healing;
-	int selfHealing;
+	Integer healing;
+	Integer selfHealing;
 	int expSoak;
 	String hero;
 	
 	String UserHero;
 	int UserkillsAssists;
 	int Userdeaths;
+	
+
+
 	int UsersiegeDmg;
 	int UserheroDmg;
-	int Userhealing;
-	int UserselfHealing;
+	Integer Userhealing;
+	Integer UserselfHealing;
 	int UserexpSoak;
 	
 	String UserName;
@@ -30,7 +33,7 @@ public class Encounter {
 
 
 
-	public Encounter(String name,int killsAssists, int deaths, int siegeDmg, int heroDmg, int healing, int selfHealing, int expSoak, String hero, int userkillsAssists, int userdeaths, int usersiegeDmg, int userheroDmg, int userhealing,int userselfHealing, int userexpSoak,String userHero, String map, Boolean won, Boolean sameteam) {
+	public Encounter(String name,int killsAssists, int deaths, int siegeDmg, int heroDmg, Integer healing, Integer selfHealing, int expSoak, String hero, int userkillsAssists, int userdeaths, int usersiegeDmg, int userheroDmg, Integer userhealing,Integer userselfHealing, int userexpSoak,String userHero, String map, Boolean won, Boolean sameteam) {
 		
 		this.killsAssists = killsAssists;
 		this.deaths = deaths;
@@ -137,7 +140,7 @@ public class Encounter {
 	}
 
 
-	public int getUserhealing() {
+	public Integer getUserhealing() {
 		return Userhealing;
 	}
 
@@ -147,7 +150,7 @@ public class Encounter {
 	}
 
 
-	public int getUserselfHealing() {
+	public Integer getUserselfHealing() {
 		return UserselfHealing;
 	}
 
@@ -207,7 +210,7 @@ public class Encounter {
 	}
 
 
-	public int getHealing() {
+	public Integer getHealing() {
 		return healing;
 	}
 
@@ -217,7 +220,7 @@ public class Encounter {
 	}
 
 
-	public int getSelfHealing() {
+	public Integer getSelfHealing() {
 		return selfHealing;
 	}
 
@@ -234,6 +237,44 @@ public class Encounter {
 
 	public void setExpSoak(int expSoak) {
 		this.expSoak = expSoak;
+	}
+	public String getHero() {
+		return hero;
+	}
+
+
+	public void setHero(String hero) {
+		this.hero = hero;
+	}
+
+
+	public String getUserHero() {
+		return UserHero;
+	}
+
+
+	public void setUserHero(String userHero) {
+		UserHero = userHero;
+	}
+
+
+	public void setHealing(Integer healing) {
+		this.healing = healing;
+	}
+
+
+	public void setSelfHealing(Integer selfHealing) {
+		this.selfHealing = selfHealing;
+	}
+
+
+	public void setUserhealing(Integer userhealing) {
+		Userhealing = userhealing;
+	}
+
+
+	public void setUserselfHealing(Integer userselfHealing) {
+		UserselfHealing = userselfHealing;
 	}
 	
 }
