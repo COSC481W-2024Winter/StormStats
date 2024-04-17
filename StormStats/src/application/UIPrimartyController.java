@@ -71,32 +71,48 @@ public class UIPrimartyController implements Initializable {
     @FXML
     private TableView<Encounter> StatsTable;
     @FXML
-    private TableColumn<Encounter, Integer> KillsAssitsTable;
+    private TableColumn<Encounter, Integer> KillsAssitsColumn;
 	@FXML
-    private TableColumn<Encounter, Integer> DeathsTable;
+    private TableColumn<Encounter, Integer> DeathsColumn;
 	@FXML
-    private TableColumn<Encounter, Integer> SiegeDmgTable;
+    private TableColumn<Encounter, Integer> SiegeDmgColumn;
 	@FXML
-    private TableColumn<Encounter, Integer> HeroDmgTable;
+    private TableColumn<Encounter, Integer> HeroDmgColumn;
 	@FXML
-    private TableColumn<Encounter, Integer> HealingTable;
+    private TableColumn<Encounter, Integer> HealingColumn;
 	@FXML
-    private TableColumn<Encounter, Integer> SelfHealingTable;
+    private TableColumn<Encounter, Integer> SelfHealingColumn;
     @FXML
-    private TableColumn<Encounter, Integer> ExpSoakTable;
+    private TableColumn<Encounter, Integer> ExpSoakColumn;
     @FXML
-    private TableColumn<Encounter, String> UserNameTable;
+    private TableColumn<Encounter, String> UserNameColumn;
     @FXML
-    private TableColumn<Encounter, Boolean> SameTeamTable;
+    private TableColumn<Encounter, Boolean> SameTeamColumn;
     @FXML
-    private TableColumn<Encounter, String> HeroTable;
+    private TableColumn<Encounter, String> HeroColumn;
     
     
     ArrayList<Player> playerList = new ArrayList<Player>(); 
   
    
-    
-    
+    @FXML
+    private TableView<Player> PlayersTable;
+    @FXML
+    private TableColumn<Player, String> UsernamePlayerColumn;
+    @FXML
+    private TableColumn<Player, Double> AvgKillsAssitsColumn;
+    @FXML
+    private TableColumn<Player, Double> AvgDeathsColumn;
+    @FXML
+    private TableColumn<Player, Integer> AvgHeroDmgColumn;
+    @FXML
+    private TableColumn<Player, Integer> AvgSiegeDmgColumn;
+    @FXML
+    private TableColumn<Player, Integer> AvgHealingColumn;
+    @FXML
+    private TableColumn<Player, Integer> AvgSelfHealingColumn;
+	
+    ObservableList<Player> randomList = FXCollections.observableArrayList();
     
   
    // add new table for displaying playerList data 
@@ -111,27 +127,45 @@ public void initialize(URL url, ResourceBundle rb) {
 	initializeSQL();
 	StatsTable.setItems(encounterList);
 	
+	KillsAssitsColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("killsAssists"));
+	DeathsColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("deaths"));
+	SiegeDmgColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("siegeDmg"));
+	HeroDmgColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("heroDmg"));
+	HealingColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("healing"));
+	SelfHealingColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("selfHealing"));
+	ExpSoakColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("expSoak"));
 	
+	UserNameColumn.setCellValueFactory(new PropertyValueFactory<Encounter, String>("UserName"));
+	SameTeamColumn.setCellValueFactory(new PropertyValueFactory<Encounter, Boolean>("SameTeam"));
 	
-	KillsAssitsTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("killsAssists"));
-	DeathsTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("deaths"));
-	SiegeDmgTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("siegeDmg"));
-	HeroDmgTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("heroDmg"));
-	HealingTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("healing"));
-	SelfHealingTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("selfHealing"));
-	ExpSoakTable.setCellValueFactory(new PropertyValueFactory<Encounter, Integer>("expSoak"));
-	
-	UserNameTable.setCellValueFactory(new PropertyValueFactory<Encounter, String>("UserName"));
-	SameTeamTable.setCellValueFactory(new PropertyValueFactory<Encounter, Boolean>("SameTeam"));
-	
-	HeroTable.setCellValueFactory(new PropertyValueFactory<Encounter, String>("hero"));
+	HeroColumn.setCellValueFactory(new PropertyValueFactory<Encounter, String>("hero"));
 	
 	StatsTable.setItems(encounterList);
+	
+	
+	
+	
+	PlayersTable.setItems(randomList);
+	UsernamePlayerColumn.setCellValueFactory(new PropertyValueFactory<Player, String>("UserName"));
+	AvgKillsAssitsColumn.setCellValueFactory(new PropertyValueFactory<Player, Double>("AvgKillsAssits"));
+	AvgDeathsColumn.setCellValueFactory(new PropertyValueFactory<Player, Double>("AvgDeaths"));
+	AvgHeroDmgColumn.setCellValueFactory(new PropertyValueFactory<Player, Integer>("AvgHeroDmg"));
+	AvgSiegeDmgColumn.setCellValueFactory(new PropertyValueFactory<Player, Integer>("AvgSiegeDmg"));
+	AvgHealingColumn.setCellValueFactory(new PropertyValueFactory<Player, Integer>("AvgHealing"));
+	AvgSelfHealingColumn.setCellValueFactory(new PropertyValueFactory<Player, Integer>("AvgSelfHealing"));
+	
+	
+	
+	
+	
+	
+	PlayersTable.setItems(randomList);
+	
 	
 }
 
 public void initializeSQL() {
-	
+	boolean playerAlreadyExists=false;
 	
 	try
     (
@@ -180,7 +214,21 @@ public void initializeSQL() {
 		     			tempkillsassits, tempdeaths, tempsiegedmg, tempherodmg, temphealing, tempselfhealing, tempexpsoak, temphero, tempuserkillassits, tempuserdeaths, tempusersiegedmg, tempuserherodmg, tempuserhealing, tempuserselfhealing, tempuserexpsoak, tempuserhero, tempmap, tempwon, tempsameteam
 		     	);
 		     	this.encounterList.add(encounter);
-             
+		     	
+		     	for(int i=0; i<randomList.size(); i++) {
+					//if if Player has been encounterd before add that encounter to their player encounter List
+					if(encounter.UserName.equals(randomList.get(i).UserName)) {
+						randomList.get(i).newEncounter(randomList.get(i), encounter);
+						playerAlreadyExists=true;
+					}
+					
+				}
+				// if no one with the same name was found make a new player object for them
+				if(playerAlreadyExists==false) {
+					randomList.add(new Player(tempusername, 0, 0, 0, 0, 0, 0, encounter));
+				}
+		     	
+		     	//this.randomList.add(new Player(tempusername,0 ,0 ,0 ,0 ,0 ,0, encounter));
              }
          }
 		 
@@ -192,7 +240,7 @@ public void initializeSQL() {
 		e1.printStackTrace();
 	}
 	
-	
+	//this.randomList.add(new Player("UserName", 0, 0, 0, 0, 0, 0, null));
 }
 
 
@@ -529,17 +577,17 @@ public void initializeSQL() {
 		encounterList.add(e);
 		
 		//would like to change this out for binary search/some other search
-		for(int i=0; i<playerList.size(); i++) {
+		for(int i=0; i<randomList.size(); i++) {
 			//if if Player has been encounterd before add that encounter to their player encounter List
-			if(e.UserName.equals(playerList.get(i).UserName)) {
-				playerList.get(i).newEncounter(playerList.get(i), e);
+			if(e.UserName.equals(randomList.get(i).UserName)) {
+				randomList.get(i).newEncounter(randomList.get(i), e);
 				playerAlreadyExists=true;
 			}
 			
 		}
 		// if no one with the same name was found make a new player object for them
 		if(playerAlreadyExists==false) {
-			playerList.add(new Player(e.UserName, 0, 0, 0, 0, 0, 0, e));
+			randomList.add(new Player(e.UserName, 0, 0, 0, 0, 0, 0, e));
 		}
 		
 		

@@ -97,16 +97,16 @@
                      <content>
                         <TableView fx:id="StatsTable" prefHeight="343.0" prefWidth="629.0">
                           <columns>
-                              <TableColumn fx:id="UserNameTable" prefWidth="75.0" text="UserName" />
-                              <TableColumn fx:id="HeroTable" prefWidth="75.0" text="Hero" />
-                            <TableColumn fx:id="KillsAssitsTable" prefWidth="75.0" text="Kills+Assists" />
-                            <TableColumn fx:id="DeathsTable" prefWidth="75.0" text="Deaths" />
-                              <TableColumn fx:id="SiegeDmgTable" prefWidth="75.0" text="SiegeDmg" />
-                              <TableColumn fx:id="HeroDmgTable" prefWidth="75.0" text="HeroDmg" />
-                              <TableColumn fx:id="HealingTable" prefWidth="75.0" text="Healing" />
-                              <TableColumn fx:id="SelfHealingTable" prefWidth="75.0" text="SelfHealing" />
-                              <TableColumn fx:id="ExpSoakTable" prefWidth="75.0" text="ExpSoak" />
-                              <TableColumn fx:id="SameTeamTable" prefWidth="75.0" text="SameTeam" />
+                              <TableColumn fx:id="UserNameColumn" prefWidth="75.0" text="UserName" />
+                              <TableColumn fx:id="HeroColumn" prefWidth="75.0" text="Hero" />
+                            <TableColumn fx:id="KillsAssitsColumn" prefWidth="75.0" text="Kills+Assists" />
+                            <TableColumn fx:id="DeathsColumn" prefWidth="75.0" text="Deaths" />
+                              <TableColumn fx:id="SiegeDmgColumn" prefWidth="75.0" text="SiegeDmg" />
+                              <TableColumn fx:id="HeroDmgColumn" prefWidth="75.0" text="HeroDmg" />
+                              <TableColumn fx:id="HealingColumn" prefWidth="75.0" text="Healing" />
+                              <TableColumn fx:id="SelfHealingColumn" prefWidth="75.0" text="SelfHealing" />
+                              <TableColumn fx:id="ExpSoakColumn" prefWidth="75.0" text="ExpSoak" />
+                              <TableColumn fx:id="SameTeamColumn" prefWidth="75.0" text="SameTeam" />
                           </columns>
                         </TableView>
                      </content></Tab>
@@ -141,6 +141,21 @@
                            </children>
                         </Pane>
                      </content></Tab>
+                  <Tab text="Stats Avg">
+                     <content>
+                        <TableView fx:id="PlayersTable" prefHeight="343.0" prefWidth="629.0">
+                           <columns>
+                              <TableColumn fx:id="UsernamePlayerColumn" prefWidth="75.0" text="Username" />
+                              <TableColumn fx:id="AvgKillsAssitsColumn" prefWidth="75.0" text="AvgKillsAssits" />
+                              <TableColumn fx:id="AvgDeathsColumn" prefWidth="75.0" text="AvgDeaths" />
+                              <TableColumn fx:id="AvgHeroDmgColumn" prefWidth="75.0" text="AvgHeroDmg" />
+                              <TableColumn fx:id="AvgSiegeDmgColumn" prefWidth="75.0" text="AvgSiegeDmg" />
+                              <TableColumn fx:id="AvgHealingColumn" prefWidth="75.0" text="AvgHealing" />
+                              <TableColumn fx:id="AvgSelfHealingColumn" prefWidth="75.0" text="AvgSelfHealing" />
+                           </columns>
+                        </TableView>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
       </children>
